@@ -2,7 +2,7 @@ pipeline {
     agent {label 'agent1'} 
     // parameters {
     //     choice(name:'BRANCH', choices: ['release','dev','test','prod'])
-    }
+    // }
 
     stages {
 
