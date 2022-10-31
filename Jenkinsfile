@@ -1,7 +1,7 @@
 pipeline {
     agent {label 'agent1'} 
-    parameters {
-        choice(name:'BRANCH', choices: ['release','dev','test','prod'])
+    // parameters {
+    //     choice(name:'BRANCH', choices: ['release','dev','test','prod'])
     }
 
     stages {
@@ -9,7 +9,7 @@ pipeline {
         stage('Ci') {
             steps {
                 script {
-                    if (params.BRANCH == "release") {
+                    if (env.BRANCH_NAME == "release") {
                             
                         withCredentials([usernamePassword(credentialsId: 'Dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) { 
                         
@@ -30,7 +30,7 @@ pipeline {
         stage('Cd') {
             steps {
                 script{    
-                    if (params.BRANCH == 'dev' || params.BRANCH == 'test' || params.BRANCH == 'prod' ) {
+                    if (env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test' || env.BRANCH_NAME == 'prod' ) {
                         withCredentials([file(credentialsId: 'configtxt', variable: 'kubeconf')]){
                     
                             sh """
